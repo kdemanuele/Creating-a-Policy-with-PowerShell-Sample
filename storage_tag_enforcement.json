@@ -1,0 +1,29 @@
+﻿{
+    "if": {
+        "allOf": [
+            {
+                "field": "type",
+                "equals": "Microsoft.Storage/storageAccounts"
+            },
+            {
+                "field": "[concat('tags[', parameters('tagName'), ']')]",
+                "notEquals": "[parameters('tagValue')]"
+            }
+        ]
+    },
+    "then": {
+        "effect": "modify",
+        "details": {
+            "operations": [
+                {
+                    "operation": "addOrReplace",
+                    "field": "[concat('tags[', parameters('tagName'), ']')]",
+                    "value": "[resourcegroup().tags[parameters('tagName')]]"
+                }
+            ],
+            "roleDefinitionIds": [
+                "/providers/microsoft.authorization/roleDefinitions/4a9ae827-6dc8-4573-8ac7-8239d42aa03f"
+            ]
+        }
+    }
+}
